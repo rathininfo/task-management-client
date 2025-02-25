@@ -1,6 +1,8 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../Provider/AuthProvider";
+import { IoMdAdd } from "react-icons/io";
+
 
 const Navbar = () => {
   const { user, logout, setUser } = useContext(AuthContext);
@@ -21,15 +23,19 @@ const Navbar = () => {
     <nav className="bg-gradient-to-r from-sky-50 to-indigo-50 shadow-md">
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         {/* Logo */}
-        <Link to="/" className="text-2xl font-bold text-blue-600">
-          Task Management
+<div>
+<Link to="/" className="text-2xl font-bold text-blue-600">
+        Task Management 
         </Link>
+</div>
 
         {/* Desktop Navigation & User Profile */}
         <div className="flex items-center gap-6">
           <div className="hidden lg:flex gap-4">
             <Link to="/task" className="text-gray-700 hover:text-blue-500">
-              Create Task
+           <div className="flex justify-center items-center gap-2 font-bold border-2 px-3 py-2 rounded-md">
+           <IoMdAdd/> Create Task  
+           </div>
             </Link>
           </div>
 

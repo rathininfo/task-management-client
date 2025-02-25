@@ -6,14 +6,25 @@ const socket = io("http://localhost:4000");
 
 const TaskBoard = () => {
   const [tasks, setTasks] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Fetch tasks from backend
-    fetch("http://localhost:4000/tasks")
-      .then((res) => res.json())
-      .then((data) => setTasks(data));
+    const fetchTasks = async () => {
+      try {
+        const response = await fetch("http://localhost:4000/tasks");
+        const data = await response.json();
+        setTasks(data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching tasks:", error);
+        setLoading(false);
+      }
+    };
 
-    // Listen for real-time updates
+    fetchTasks();
+
+    // Listen for real-time updates from WebSocket
     socket.on("taskCreated", (newTask) => {
       setTasks((prev) => [...prev, newTask]);
     });
@@ -39,15 +50,24 @@ const TaskBoard = () => {
 
   const categories = ["To Do", "In Progress", "Done"];
 
+  if (loading) {
+    return <span className="loading loading-spinner loading-lg"></span>;
+  }
+
   return (
     <div className="p-6">
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
         {categories.map((category) => (
-          <div key={category} className="bg-gray-100 p-4 rounded-lg">
-            <h2 className="font-bold text-lg mb-2">{category}</h2>
+          <div key={category} className="bg-gray-100 p-4 rounded-lg shadow-lg">
+            <h2 className="font-bold text-xl mb-4">{category}</h2>
+            {/* Filter and map tasks based on the status */}
             {tasks
               .filter((task) => task.status === category)
-              .map((task) => <div className="mt-2"><Task key={task._id} task={task} /></div>)}
+              .map((task) => (
+                <div className="mt-4" key={task._id}>
+                  <Task task={task} />
+                </div>
+              ))}
           </div>
         ))}
       </div>

@@ -7,8 +7,9 @@ const PrivateRoute = ({ children }) => {
   const location = useLocation();
 
   if (loading) {
-    return <h1>Loading.............</h1>; // Show a loader while checking authentication
+    return <span className="loading loading-spinner loading-lg "></span> // Show a loader while checking authentication
   }
+
 
   if (user) {
     return children; // Allow access if the user is logged in
