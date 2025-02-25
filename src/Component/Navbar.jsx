@@ -20,7 +20,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-gradient-to-r from-sky-50 to-indigo-50 shadow-md">
+    <nav className="sticky top-0 z-50 bg-gradient-to-r from-sky-50 to-indigo-50 shadow-md">
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         {/* Logo */}
 <div>

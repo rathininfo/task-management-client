@@ -8,12 +8,13 @@ import Login from "../Pages/Login";
 import PrivateRoute from "./PrivateRoute";
 import Home from "../Pages/Home/Home";
 import CreateTaskForm from "../Component/CreateTaskForm";
+import ErrorPage from "../Pages/ErrorPage";
 
   const router = createBrowserRouter([
     {
       path: "/",
       element: <MainLayout />,
-      errorElement:<h1>This Is Error</h1>,
+      errorElement:<ErrorPage></ErrorPage>,
       children: [
         {
           path: "/",
