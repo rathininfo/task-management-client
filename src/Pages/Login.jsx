@@ -34,7 +34,7 @@ const Login = () => {
           photoURL: result.user.photoURL,
         };
 
-        fetch("https://visa-navigator-server-plum.vercel.app/users", {
+        fetch("http://localhost:4000/users", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(userData),

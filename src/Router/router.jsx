@@ -5,6 +5,10 @@ import {
 import MainLayout from "../Layout/MainLayout";
 import Register from "../Pages/Register";
 import Login from "../Pages/Login";
+import PrivateRoute from "./PrivateRoute";
+import Home from "../Pages/Home/Home";
+import CreateTaskForm from "../Component/CreateTaskForm";
+
   const router = createBrowserRouter([
     {
       path: "/",
@@ -13,7 +17,7 @@ import Login from "../Pages/Login";
       children: [
         {
           path: "/",
-          element: <h1>This is HOme</h1>,
+          element: <PrivateRoute><Home></Home></PrivateRoute>,
         },
         {
           path: "/auth/register",
@@ -22,6 +26,10 @@ import Login from "../Pages/Login";
         {
           path:"/auth/login",
           element:<Login></Login>
+        },
+        {
+          path:"/task",
+          element: <div className="mt-5"><CreateTaskForm></CreateTaskForm></div>
         }
       ],
     },

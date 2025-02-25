@@ -28,11 +28,8 @@ const Navbar = () => {
         {/* Desktop Navigation & User Profile */}
         <div className="flex items-center gap-6">
           <div className="hidden lg:flex gap-4">
-            <Link to="/" className="text-gray-700 hover:text-blue-500">
-              Home
-            </Link>
-            <Link to="/tasks" className="text-gray-700 hover:text-blue-500">
-              Tasks
+            <Link to="/task" className="text-gray-700 hover:text-blue-500">
+              Create Task
             </Link>
           </div>
 
