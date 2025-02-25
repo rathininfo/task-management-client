@@ -24,7 +24,7 @@ const Navbar = () => {
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         {/* Logo */}
 <div>
-<Link to="/" className="text-2xl font-bold text-blue-600">
+<Link to="/" className="text-2xl font-bold text-fuchsia-400">
         Task Management 
         </Link>
 </div>
@@ -32,7 +32,7 @@ const Navbar = () => {
         {/* Desktop Navigation & User Profile */}
         <div className="flex items-center gap-6">
           <div className="hidden lg:flex gap-4">
-            <Link to="/task" className="text-gray-700 hover:text-blue-500">
+            <Link to="/task" className="text-fuchsia-400 hover:text-fuchsia-600">
            <div className="flex justify-center items-center gap-2 font-bold border-2 px-3 py-2 rounded-md">
            <IoMdAdd/> Create Task  
            </div>

@@ -96,7 +96,7 @@ const Task = ({ task, onEdit, onDelete }) => {
               id="title"
               value={editedTask.title}
               onChange={handleChange}
-              className="w-full mt-1 p-3 border rounded-lg focus:ring-2 focus:ring-blue-400"
+              className="w-full mt-1 p-3 border rounded-lg focus:ring-2 focus:text-fuchsia-400"
               placeholder="Edit task title"
             />
           </div>
@@ -109,7 +109,7 @@ const Task = ({ task, onEdit, onDelete }) => {
               id="description"
               value={editedTask.description}
               onChange={handleChange}
-              className="w-full mt-1 p-3 border rounded-lg focus:ring-2 focus:ring-blue-400"
+              className="w-full mt-1 p-3 border rounded-lg focus:ring-2 focus:text-fuchsia-400"
               rows="4"
               placeholder="Edit task description"
             />
@@ -117,7 +117,7 @@ const Task = ({ task, onEdit, onDelete }) => {
           <div className="mt-4 flex gap-4">
             <button
               onClick={handleSave}
-              className="w-32 bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700 transition"
+              className="w-32 text-fuchsia-400 text-white p-2 rounded-md hover:text-fuchsia-600 transition"
             >
               Save Changes
             </button>
@@ -137,7 +137,7 @@ const Task = ({ task, onEdit, onDelete }) => {
           <div className="absolute top-2 right-2 flex gap-3">
             <button
               onClick={handleEdit}
-              className="p-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition"
+              className="p-2 text-fuchsia-400 text-white rounded-full hover:text-fuchsia-600 transition"
             >
               <Pencil size={16} />
             </button>
