@@ -1,7 +1,9 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
 import { AuthContext } from "../Provider/AuthProvider";
+import Swal from "sweetalert2";
+import { FaUser, FaEnvelope, FaLock, FaImage } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
 
 const Register = () => {
   const { createNewUser, setUser, updateUserProfile, googleLogin, setRefacth } =
@@ -10,16 +12,13 @@ const Register = () => {
 
   const [passwordError, setPasswordError] = useState("");
 
-  // Password validation function
   const validatePassword = (password) => {
     const hasUppercase = /[A-Z]/.test(password);
     const hasLowercase = /[a-z]/.test(password);
     const isValidLength = password.length >= 6;
 
-    if (!hasUppercase)
-      return "Password must contain at least one uppercase letter.";
-    if (!hasLowercase)
-      return "Password must contain at least one lowercase letter.";
+    if (!hasUppercase) return "Password must contain at least one uppercase letter.";
+    if (!hasLowercase) return "Password must contain at least one lowercase letter.";
     if (!isValidLength) return "Password must be at least 6 characters long.";
 
     return "";
@@ -27,7 +26,6 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     const form = new FormData(e.target);
     const name = form.get("name");
     const photo = form.get("photo");
@@ -35,33 +33,23 @@ const Register = () => {
     const password = form.get("password");
 
     const passwordValidationError = validatePassword(password);
-
     if (passwordValidationError) {
       setPasswordError(passwordValidationError);
       return;
     }
-
-    setPasswordError(""); // Clear any previous error
+    setPasswordError("");
 
     createNewUser(email, password)
       .then((result) => {
         const user = result.user;
         setUser(user);
 
-        // Send user data to the server
         fetch("https://visa-navigator-server-plum.vercel.app/users", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name,
-            email,
-            photoURL: photo,
-          }),
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, photoURL: photo }),
         });
 
-        // Update the user's profile and show success alert
         updateUserProfile({ displayName: name, photoURL: photo })
           .then(() => {
             setRefacth(true);
@@ -71,7 +59,7 @@ const Register = () => {
               icon: "success",
               confirmButtonText: "Go to Home",
             });
-            navigate("/"); // Navigate to home page after the alert
+            navigate("/");
           })
           .catch((err) => console.error("Error updating profile:", err));
       })
@@ -82,25 +70,17 @@ const Register = () => {
     googleLogin()
       .then((result) => {
         const user = result.user;
-
-        // Extract necessary data from Firebase user object
-        const userData = {
-          name: user.displayName,
-          email: user.email,
-          photoURL: user.photoURL,
-        };
-
-        // Send user data to the server
         fetch("https://visa-navigator-server-plum.vercel.app/users", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(userData),
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: user.displayName,
+            email: user.email,
+            photoURL: user.photoURL,
+          }),
         })
-          .then((response) => response.json())
           .then(() => {
-            navigate("/"); // Redirect to home page
+            navigate("/");
           })
           .catch((error) => {
             console.error("Error sending user data:", error);
@@ -112,92 +92,88 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center bg-slate-100">
-      <div className="flex gap-4 flex-col">
-        <h1 className="text-2xl font-semibold">Register your account</h1>
-        <div className="bg-base-100 w-96 p-4">
-          <form onSubmit={handleSubmit} className="card-body">
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Your Name</span>
-              </label>
-              <input
-                name="name"
-                type="text"
-                placeholder="Enter Your Name"
-                className="input input-bordered"
-                required
-              />
-            </div>
+    <div className="min-h-screen flex justify-center items-center bg-gray-100 p-6">
+      <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
+        <h1 className="text-2xl font-bold text-center mb-6 text-gray-800">
+          Register your account
+        </h1>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="flex items-center border rounded-md px-3 py-2">
+            <FaUser className="text-gray-500 mr-2" />
+            <input
+              name="name"
+              type="text"
+              placeholder="Your Name"
+              className="w-full outline-none"
+              required
+            />
+          </div>
 
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Photo URL</span>
-              </label>
-              <input
-                name="photo"
-                type="text"
-                placeholder="Enter your Photo URL"
-                className="input input-bordered"
-                required
-              />
-            </div>
+          <div className="flex items-center border rounded-md px-3 py-2">
+            <FaImage className="text-gray-500 mr-2" />
+            <input
+              name="photo"
+              type="text"
+              placeholder="Photo URL"
+              className="w-full outline-none"
+              required
+            />
+          </div>
 
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Email</span>
-              </label>
-              <input
-                name="email"
-                type="email"
-                placeholder="Enter your email address"
-                className="input input-bordered"
-                required
-              />
-            </div>
+          <div className="flex items-center border rounded-md px-3 py-2">
+            <FaEnvelope className="text-gray-500 mr-2" />
+            <input
+              name="email"
+              type="email"
+              placeholder="Email Address"
+              className="w-full outline-none"
+              required
+            />
+          </div>
 
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Password</span>
-              </label>
-              <input
-                name="password"
-                type="password"
-                placeholder="Enter your password"
-                className="input input-bordered"
-                required
-              />
-              {passwordError && (
-                <p className="text-red-500 text-sm mt-2">{passwordError}</p>
-              )}
-            </div>
+          <div className="flex items-center border rounded-md px-3 py-2">
+            <FaLock className="text-gray-500 mr-2" />
+            <input
+              name="password"
+              type="password"
+              placeholder="Password"
+              className="w-full outline-none"
+              required
+            />
+          </div>
+          {passwordError && (
+            <p className="text-red-500 text-sm">{passwordError}</p>
+          )}
 
-            <div className="form-control flex flex-row items-center gap-2 mt-5">
-              <input type="checkbox" className="checkbox" required />
-              <span>Accept Terms & Conditions</span>
-            </div>
-
-            <div className="form-control mt-4">
-              <button className="btn btn-primary rounded-none" type="submit">
-                Register
-              </button>
-            </div>
-          </form>
+          <div className="flex items-center gap-2 mt-2">
+            <input type="checkbox" className="checkbox" required />
+            <span className="text-gray-700">Accept Terms & Conditions</span>
+          </div>
 
           <button
-            className="border-2 border-gray-200 rounded-md py-2 mb-3 w-full"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-md mt-3 transition"
+            type="submit"
+          >
+            Register
+          </button>
+        </form>
+
+        <div className="text-center mt-4">
+          <button
+            className="flex items-center justify-center w-full border border-gray-300 text-gray-700 py-2 rounded-md transition hover:bg-gray-100"
             onClick={handleLoginGoogle}
           >
-            Login With Google
+            <FcGoogle className="mr-2 text-red-500" />
+            Login with Google
           </button>
-
-          <p className="text-center font-semibold text-sm">
-            Already Have An Account?{" "}
-            <Link to="/auth/login" className="text-red-500">
-              Login
-            </Link>
-          </p>
         </div>
+
+        <p className="text-center text-gray-600 mt-4">
+          Already have an account?{" "}
+          <Link to="/auth/login" className="text-blue-500 font-semibold">
+            Login
+          </Link>
+        </p>
       </div>
     </div>
   );
